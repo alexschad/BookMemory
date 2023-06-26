@@ -9,19 +9,19 @@ import {
 } from 'react-native';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { useNavigation } from '@react-navigation/native';
 
-import { DataContext, DispatchContext } from '../Context';
-import { ACTIONS } from '../Reducer';
+import { DataContext } from '../Context';
 import BookItem from './BookItem';
 import NoItems from './NoItems';
 import { useTheme } from '../ThemeManager';
 
 const BookList = () => {
   const books = useContext(DataContext);
-  const dispatch = useContext(DispatchContext);
   const {
     theme: { styles, COLORS },
   } = useTheme();
+  const navigation = useNavigation();
 
   const [tagFilter, setTagFilter] = useState();
   const [sortOrder, setSortOrder] = useState('created');
@@ -55,12 +55,8 @@ const BookList = () => {
     );
   };
 
-  const addBook = () => {
-    dispatch({
-      type: ACTIONS.ADD_BOOK,
-      payload: {},
-    });
-    return;
+  const scanBook = () => {
+    navigation.navigate('Scanner');
   };
 
   const setOrderCreated = () => {
@@ -153,7 +149,7 @@ const BookList = () => {
         )}
       </View>
       <View style={styles.bookListFooterContainer}>
-        <Pressable onPress={addBook} style={styles.transparent}>
+        <Pressable onPress={scanBook} style={styles.transparent}>
           <MaterialCommunityIcons name="record" size={70} color="red" />
         </Pressable>
       </View>

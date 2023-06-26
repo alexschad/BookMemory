@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useRef } from 'react';
+import React, { useEffect, useContext } from 'react';
 import { StatusBar, Pressable, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import AntIcon from 'react-native-vector-icons/dist/AntDesign';
@@ -25,7 +25,6 @@ const SettingsHeaderLink = ({ navigation }) => {
 const Home = () => {
   const navigation = useNavigation();
   const books = useContext(DataContext);
-  const prevBooksLen = useRef(books?.length);
   const {
     mode,
     theme: { styles, COLORS },
@@ -36,17 +35,6 @@ const Home = () => {
       headerLeft: () => <SettingsHeaderLink navigation={navigation} />,
     });
   }, [navigation]);
-
-  useEffect(() => {
-    if (prevBooksLen.current < books?.length) {
-      // a book got added so we redirect to the Edit Page
-      const newBookId = books.sort((a, b) => a.created < b.created)[0].id;
-      navigation.navigate('EditBook', {
-        bookId: newBookId,
-      });
-    }
-    prevBooksLen.current = books?.length;
-  }, [navigation, books]);
 
   let view = null;
   if (books === null) {

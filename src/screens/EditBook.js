@@ -73,15 +73,7 @@ const EditBook = ({ route }) => {
       headerTitle: () => {
         let header;
         if (book) {
-          if (book.duration) {
-            header = (
-              <>
-                <Text style={styles.headerText}>{book.title}</Text>
-              </>
-            );
-          } else {
-            header = <Text>{book.title}</Text>;
-          }
+          header = <Text>{book.title}</Text>;
         }
         return header;
       },

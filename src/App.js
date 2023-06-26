@@ -10,6 +10,7 @@ import reducer, { ACTIONS } from './Reducer';
 import Home from './screens/Home';
 import Settings from './screens/Settings';
 import EditBook from './screens/EditBook';
+import Scanner from './screens/Scanner';
 
 const Stack = createNativeStackNavigator();
 
@@ -56,6 +57,14 @@ const NavContainer = () => {
         <Stack.Screen
           name="EditBook"
           component={EditBook}
+          options={{
+            headerTitle: '',
+            headerBackTitle: 'Back',
+          }}
+        />
+        <Stack.Screen
+          name="Scanner"
+          component={Scanner}
           options={{
             headerTitle: '',
             headerBackTitle: 'Back',
