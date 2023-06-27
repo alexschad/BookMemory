@@ -4,12 +4,9 @@ import {
   FlatList,
   View,
   TouchableOpacity,
-  Pressable,
   Text,
 } from 'react-native';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import { useNavigation } from '@react-navigation/native';
 
 import { DataContext } from '../Context';
 import BookItem from './BookItem';
@@ -21,7 +18,6 @@ const BookList = () => {
   const {
     theme: { styles, COLORS },
   } = useTheme();
-  const navigation = useNavigation();
 
   const [tagFilter, setTagFilter] = useState();
   const [sortOrder, setSortOrder] = useState('created');
@@ -53,10 +49,6 @@ const BookList = () => {
     return filterdBooks.sort((a, b) =>
       a.title > b.title ? -1 : b.title > a.title ? 1 : 0,
     );
-  };
-
-  const scanBook = () => {
-    navigation.navigate('Scanner');
   };
 
   const setOrderCreated = () => {
@@ -147,11 +139,6 @@ const BookList = () => {
             />
           </TouchableHighlight>
         )}
-      </View>
-      <View style={styles.bookListFooterContainer}>
-        <Pressable onPress={scanBook} style={styles.transparent}>
-          <MaterialCommunityIcons name="record" size={70} color="red" />
-        </Pressable>
       </View>
     </View>
   );

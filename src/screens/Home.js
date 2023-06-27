@@ -22,6 +22,21 @@ const SettingsHeaderLink = ({ navigation }) => {
   );
 };
 
+const AddBookLink = ({ navigation }) => {
+  const {
+    theme: { styles, COLORS },
+  } = useTheme();
+  return (
+    <Pressable
+      onPress={() => {
+        navigation.navigate('Scanner');
+      }}
+      style={styles.navHeaderLink}>
+      <AntIcon name="plus" size={20} color={COLORS.buttonAction} />
+    </Pressable>
+  );
+};
+
 const Home = () => {
   const navigation = useNavigation();
   const books = useContext(DataContext);
@@ -33,6 +48,7 @@ const Home = () => {
   useEffect(() => {
     navigation.setOptions({
       headerLeft: () => <SettingsHeaderLink navigation={navigation} />,
+      headerRight: () => <AddBookLink navigation={navigation} />,
     });
   }, [navigation]);
 

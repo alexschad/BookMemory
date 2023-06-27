@@ -90,8 +90,16 @@ const getStyle = (mode) => {
     bookItemContainer: {
       display: 'flex',
       flexDirection: 'row',
-      justifyContent: 'space-between',
+      justifyContent: 'flex-start',
       paddingVertical: 2,
+    },
+    bookItemTextContainer: {
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'space-around',
+      width: 0,
+      flexGrow: 1,
+      flex: 1,
     },
     bookItemTextSmall: {
       color: COLORS.text[mode],
@@ -123,12 +131,13 @@ const getStyle = (mode) => {
       fontSize: 20,
       fontWeight: 'bold',
       color: COLORS.text[mode],
-      maxWidth: '85%',
-      height: 25,
-      alignContent: 'center',
-      textAlign: 'center',
+      // height: 25,
+      alignContent: 'flex-start',
+      textAlign: 'left',
       includeFontPadding: false,
       fontVariant: ['tabular-nums'],
+      width: wp('70%'),
+      flexShrink: 1,
     },
     buttonWrapper: {
       padding: 20,
@@ -259,7 +268,7 @@ const getStyle = (mode) => {
       flexWrap: 'wrap',
       width: '95%',
       flexDirection: 'row',
-      marginBottom: 5,
+      marginTop: 5,
     },
     settingsRow: {
       display: 'flex',
@@ -510,6 +519,11 @@ const getStyle = (mode) => {
     addBookOnBoard: { display: 'flex', alignSelf: 'flex-end' },
     headerText: { fontSize: 20 },
     headerTextTime: { fontSize: 15 },
+    mediumLogo: {
+      width: 60,
+      height: 90,
+      marginRight: 15,
+    },
   });
 };
 export const getTheme = (mode) => {

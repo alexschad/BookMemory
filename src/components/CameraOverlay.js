@@ -45,7 +45,6 @@ const CameraOverlay = ({ title, isbn_13 }) => {
       payload: { title: title, isbn: isbn_13[0] },
     });
   };
-  console.log('CXXXXXXXXXX', isbn_13[0]);
 
   return (
     <View style={styles.cameraContainer}>
@@ -90,6 +89,5 @@ const styles = StyleSheet.create({
     marginTop: 15,
     marginBottom: 15,
     marginLeft: 10,
-    // left: 5,
   },
 });

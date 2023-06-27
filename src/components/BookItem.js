@@ -1,6 +1,13 @@
 import React, { useContext } from 'react';
 import { format } from 'date-fns';
-import { View, Text, TouchableOpacity, Pressable, Alert } from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Pressable,
+  Alert,
+  Image,
+} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import AntIcon from 'react-native-vector-icons/dist/AntDesign';
@@ -62,25 +69,21 @@ const BookItem = ({ setTagFilter, setActiveBook, active, book }) => {
         clickItem();
       }}>
       <View>
-        <View style={styles.bookListItemTags}>
-          {book.tags.map((tag, index) => (
-            <TouchableOpacity
-              key={`${tag}-${index}`}
-              style={styles.tagItemContainer}
-              onPress={onTagPress(tag)}>
-              <Text style={styles.tagText}>{tag}</Text>
-            </TouchableOpacity>
-          ))}
-        </View>
         <View style={styles.bookItemContainer}>
-          <Text style={styles.bookItemText}>{book.title}</Text>
-        </View>
-        <View style={styles.bookItemContainer}>
-          <Text style={styles.bookItemTextSmall}>
-            {book.created &&
-              `${format(new Date(book.created), 'MM/dd/yyyy k:mm')}`}
-          </Text>
-          <Text style={styles.bookItemTextSmall}></Text>
+          <Image
+            style={styles.mediumLogo}
+            source={{
+              uri: `https://covers.openlibrary.org/b/isbn/${book.isbn}-M.jpg`,
+            }}
+          />
+
+          <View style={styles.bookItemTextContainer}>
+            <Text style={styles.bookItemText}>{book.title}</Text>
+            <Text style={styles.bookItemTextSmall}>
+              {book.created &&
+                `${format(new Date(book.created), 'MM/dd/yyyy k:mm')}`}
+            </Text>
+          </View>
         </View>
         {active && (
           <View style={styles.bookItemActionContainer}>
@@ -92,6 +95,16 @@ const BookItem = ({ setTagFilter, setActiveBook, active, book }) => {
             </Pressable>
           </View>
         )}
+        <View style={styles.bookListItemTags}>
+          {book.tags.map((tag, index) => (
+            <TouchableOpacity
+              key={`${tag}-${index}`}
+              style={styles.tagItemContainer}
+              onPress={onTagPress(tag)}>
+              <Text style={styles.tagText}>{tag}</Text>
+            </TouchableOpacity>
+          ))}
+        </View>
       </View>
     </TouchableOpacity>
   );
