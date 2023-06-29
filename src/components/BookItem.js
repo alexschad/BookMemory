@@ -4,27 +4,55 @@ import {
   View,
   Text,
   TouchableOpacity,
-  Pressable,
   Alert,
   Image,
+  Animated,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import AntIcon from 'react-native-vector-icons/dist/AntDesign';
 import { ACTIONS } from '../Reducer';
+import {
+  RectButton,
+  Gesture,
+  GestureDetector,
+} from 'react-native-gesture-handler';
+import Swipeable from 'react-native-gesture-handler/Swipeable';
 
 import { useTheme } from '../ThemeManager';
 import { DispatchContext } from '../Context';
 
-const BookItem = ({ setTagFilter, setActiveBook, active, book }) => {
+const BookItem = ({ setTagFilter, book }) => {
   const dispatch = useContext(DispatchContext);
   const navigation = useNavigation();
   const {
     theme: { styles, COLORS },
   } = useTheme();
 
-  const clickItem = async () => {
-    setActiveBook(book.id);
+  const renderRightActions = () => {
+    return (
+      <View
+        style={{
+          width: 50,
+          flexDirection: 'row',
+        }}>
+        <Animated.View
+          style={{
+            flex: 1,
+            backgroundColor: 'red',
+            justifyContent: 'center',
+            transform: [{ translateX: 0 }],
+          }}>
+          <RectButton
+            style={[
+              styles.rightAction,
+              { backgroundColor: 'red', alignItems: 'center' },
+            ]}
+            onPress={deleteBook}>
+            <AntIcon name="delete" size={25} color={COLORS.text} />
+          </RectButton>
+        </Animated.View>
+      </View>
+    );
   };
 
   const onTagPress = (tag) => {
@@ -62,13 +90,18 @@ const BookItem = ({ setTagFilter, setActiveBook, active, book }) => {
     });
   };
 
+  const doubleTap = Gesture.Tap()
+    .runOnJS(true)
+    .numberOfTaps(2)
+    .onEnd((_event, success) => {
+      if (success) {
+        onEdit();
+      }
+    });
+
   return (
-    <TouchableOpacity
-      style={active ? styles.activeBookItem : styles.bookItem}
-      onPress={() => {
-        clickItem();
-      }}>
-      <View>
+    <Swipeable renderRightActions={renderRightActions}>
+      <GestureDetector gesture={doubleTap}>
         <View style={styles.bookItemContainer}>
           <Image
             style={styles.mediumLogo}
@@ -83,30 +116,22 @@ const BookItem = ({ setTagFilter, setActiveBook, active, book }) => {
               {book.created &&
                 `${format(new Date(book.created), 'MM/dd/yyyy k:mm')}`}
             </Text>
+            {book.tags.length > 0 && (
+              <View style={styles.bookListItemTags}>
+                {book.tags.map((tag, index) => (
+                  <TouchableOpacity
+                    key={`${tag}-${index}`}
+                    style={styles.tagItemContainer}
+                    onPress={onTagPress(tag)}>
+                    <Text style={styles.tagText}>{tag}</Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
+            )}
           </View>
         </View>
-        {active && (
-          <View style={styles.bookItemActionContainer}>
-            <Pressable onPress={onEdit}>
-              <FontAwesomeIcon name="edit" size={25} color={COLORS.text} />
-            </Pressable>
-            <Pressable onPress={deleteBook}>
-              <AntIcon name="delete" size={25} color={COLORS.text} />
-            </Pressable>
-          </View>
-        )}
-        <View style={styles.bookListItemTags}>
-          {book.tags.map((tag, index) => (
-            <TouchableOpacity
-              key={`${tag}-${index}`}
-              style={styles.tagItemContainer}
-              onPress={onTagPress(tag)}>
-              <Text style={styles.tagText}>{tag}</Text>
-            </TouchableOpacity>
-          ))}
-        </View>
-      </View>
-    </TouchableOpacity>
+      </GestureDetector>
+    </Swipeable>
   );
 };
 

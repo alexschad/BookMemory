@@ -1,11 +1,5 @@
 import React, { useState, useContext } from 'react';
-import {
-  TouchableHighlight,
-  FlatList,
-  View,
-  TouchableOpacity,
-  Text,
-} from 'react-native';
+import { View, TouchableOpacity, Text, FlatList } from 'react-native';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 
 import { DataContext } from '../Context';
@@ -22,7 +16,6 @@ const BookList = () => {
   const [tagFilter, setTagFilter] = useState();
   const [sortOrder, setSortOrder] = useState('created');
   const [sortDir, setSortDir] = useState('desc');
-  const [activeBook, setActiveBook] = useState();
 
   const filterBooks = () => {
     const filterdBooks = tagFilter
@@ -118,29 +111,28 @@ const BookList = () => {
         {!books || books?.length === 0 ? (
           <NoItems items={books} />
         ) : (
-          <TouchableHighlight
-            underlayColor={COLORS.background}
-            activeOpacity={1}>
-            <FlatList
-              keyExtractor={(item) => `item-${item.id}`}
-              data={filterBooks()}
-              renderItem={({ item, index }) => {
-                return (
-                  <BookItem
-                    book={item}
-                    key={item.id}
-                    last={index === books.length - 1}
-                    setTagFilter={setTagFilter}
-                    setActiveBook={setActiveBook}
-                    active={activeBook === item.id}
-                  />
-                );
-              }}
-            />
-          </TouchableHighlight>
+          <FlatList
+            keyExtractor={(item) => `item-${item.id}`}
+            ItemSeparatorComponent={ItemSeparator}
+            data={filterBooks()}
+            renderItem={({ item, index }) => {
+              return (
+                <BookItem
+                  book={item}
+                  key={item.id}
+                  last={index === books.length - 1}
+                  setTagFilter={setTagFilter}
+                />
+              );
+            }}
+          />
         )}
       </View>
     </View>
   );
 };
 export default BookList;
+
+const ItemSeparator = () => (
+  <View style={{ height: 1, backgroundColor: '#DBDBE0' }} />
+);

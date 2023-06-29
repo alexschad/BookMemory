@@ -91,7 +91,6 @@ const getStyle = (mode) => {
       display: 'flex',
       flexDirection: 'row',
       justifyContent: 'flex-start',
-      paddingVertical: 2,
     },
     bookItemTextContainer: {
       display: 'flex',
@@ -268,7 +267,7 @@ const getStyle = (mode) => {
       flexWrap: 'wrap',
       width: '95%',
       flexDirection: 'row',
-      marginTop: 5,
+      // marginTop: 5,
     },
     settingsRow: {
       display: 'flex',
@@ -522,7 +521,7 @@ const getStyle = (mode) => {
     mediumLogo: {
       width: 60,
       height: 90,
-      marginRight: 15,
+      margin: 5,
     },
   });
 };

@@ -1,5 +1,7 @@
 import React, { useEffect } from 'react';
-import { View } from 'react-native';
+import 'react-native-gesture-handler';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { View, StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -128,12 +130,18 @@ const App = () => {
       <DispatchContext.Provider value={dispatch}>
         <DataContext.Provider value={books}>
           <ThemeManager>
-            <NavContainer />
+            <GestureHandlerRootView style={styles.flex}>
+              <NavContainer />
+            </GestureHandlerRootView>
           </ThemeManager>
         </DataContext.Provider>
       </DispatchContext.Provider>
     </SafeAreaProvider>
   );
 };
+
+const styles = StyleSheet.create({
+  flex: { flex: 1 },
+});
 
 export default App;
