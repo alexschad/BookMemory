@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { format } from 'date-fns';
+// import { format } from 'date-fns';
 import {
   View,
   Text,
@@ -10,6 +10,8 @@ import {
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import AntIcon from 'react-native-vector-icons/dist/AntDesign';
+import FontAwesome5 from 'react-native-vector-icons/dist/FontAwesome5';
+
 import { ACTIONS } from '../Reducer';
 import {
   RectButton,
@@ -103,19 +105,27 @@ const BookItem = ({ setTagFilter, book }) => {
     <Swipeable renderRightActions={renderRightActions}>
       <GestureDetector gesture={doubleTap}>
         <View style={styles.bookItemContainer}>
-          <Image
-            style={styles.mediumLogo}
-            source={{
-              uri: `https://covers.openlibrary.org/b/isbn/${book.isbn}-M.jpg`,
-            }}
-          />
-
+          <View style={styles.bookItemImageContainer}>
+            <FontAwesome5
+              style={styles.mediumLogoIcon}
+              name="book"
+              size={60}
+              color={COLORS.buttonAction}
+            />
+            <Image
+              style={styles.mediumLogo}
+              source={{
+                uri: `https://covers.openlibrary.org/b/isbn/${book.isbn}-M.jpg`,
+              }}
+            />
+          </View>
           <View style={styles.bookItemTextContainer}>
             <Text style={styles.bookItemText}>{book.title}</Text>
-            <Text style={styles.bookItemTextSmall}>
+            <Text style={styles.bookItemTextSmall}>{book.description}</Text>
+            {/* <Text style={styles.bookItemTextSmall}>
               {book.created &&
                 `${format(new Date(book.created), 'MM/dd/yyyy k:mm')}`}
-            </Text>
+            </Text> */}
             {book.tags.length > 0 && (
               <View style={styles.bookListItemTags}>
                 {book.tags.map((tag, index) => (

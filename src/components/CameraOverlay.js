@@ -4,7 +4,13 @@ import { useNavigation } from '@react-navigation/native';
 import { ACTIONS } from '../Reducer';
 import { DataContext, DispatchContext } from '../Context';
 
-const CameraOverlay = ({ title, isbn_13 }) => {
+const CameraOverlay = ({
+  title,
+  full_title,
+  description,
+  isbn_13,
+  authors,
+}) => {
   if (!isbn_13 || isbn_13.length === 0) {
     return;
   }
@@ -42,7 +48,12 @@ const CameraOverlay = ({ title, isbn_13 }) => {
 
     dispatch({
       type: ACTIONS.ADD_BOOK,
-      payload: { title: title, isbn: isbn_13[0] },
+      payload: {
+        title: title,
+        isbn: isbn_13[0],
+        description: description || full_title || '',
+        tags: authors,
+      },
     });
   };
 
@@ -56,7 +67,15 @@ const CameraOverlay = ({ title, isbn_13 }) => {
               uri: `https://covers.openlibrary.org/b/isbn/${isbn_13[0]}-S.jpg`,
             }}
           />
-          <Text style={styles.barcodeTextURL}>{title}</Text>
+          <View style={styles.bookTextContainer}>
+            <Text style={styles.bookTitle}>{title}</Text>
+            {authors && authors.length > 0 && (
+              <Text style={styles.bookAuthors}>by {authors.join(', ')}</Text>
+            )}
+            <Text style={styles.bookDescription}>
+              {description || full_title || ''}
+            </Text>
+          </View>
         </View>
       </Pressable>
     </View>
@@ -67,21 +86,33 @@ export default CameraOverlay;
 
 const styles = StyleSheet.create({
   transparent: 'transparent',
-  barcodeTextURL: {
-    fontSize: 20,
-    color: 'white',
+  bookTitle: {
+    fontSize: 15,
     fontWeight: 'bold',
-    margin: 10,
-    flex: 1,
+    marginLeft: 10,
+  },
+  bookAuthors: {
+    fontSize: 10,
+    marginLeft: 10,
+  },
+  bookDescription: {
+    fontSize: 12,
+    marginTop: 5,
+    marginLeft: 10,
   },
   cameraContainer: {
     flex: 1,
     justifyContent: 'flex-end',
   },
+  bookTextContainer: {
+    flex: 1,
+    flexDirection: 'column',
+    marginTop: 15,
+  },
   overlayContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    backgroundColor: 'red',
+    backgroundColor: 'white',
   },
   tinyLogo: {
     width: 40,

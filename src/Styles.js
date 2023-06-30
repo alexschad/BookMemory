@@ -99,9 +99,11 @@ const getStyle = (mode) => {
       width: 0,
       flexGrow: 1,
       flex: 1,
+      paddingRight: 3,
     },
     bookItemTextSmall: {
       color: COLORS.text[mode],
+      fontSize: 12,
     },
     bookItemActionContainer: {
       display: 'flex',
@@ -127,7 +129,7 @@ const getStyle = (mode) => {
     bookItemText: {
       margin: 0,
       padding: 0,
-      fontSize: 20,
+      fontSize: 17,
       fontWeight: 'bold',
       color: COLORS.text[mode],
       // height: 25,
@@ -233,8 +235,8 @@ const getStyle = (mode) => {
       shadowRadius: 2,
     },
     tagItemContainer: {
-      paddingVertical: 5,
-      paddingHorizontal: 10,
+      paddingVertical: 3,
+      paddingHorizontal: 7,
       margin: 2,
       backgroundColor: COLORS.tagItemBackground[mode],
       borderRadius: 100,
@@ -244,6 +246,8 @@ const getStyle = (mode) => {
     },
     tagText: {
       color: COLORS.reverseText[mode],
+      fontSize: 10,
+      fontWeight: 'bold',
     },
     tagDelete: {
       color: COLORS.text[mode],
@@ -518,10 +522,21 @@ const getStyle = (mode) => {
     addBookOnBoard: { display: 'flex', alignSelf: 'flex-end' },
     headerText: { fontSize: 20 },
     headerTextTime: { fontSize: 15 },
-    mediumLogo: {
+    bookItemImageContainer: {
       width: 60,
       height: 90,
       margin: 5,
+    },
+    mediumLogo: {
+      position: 'absolute',
+      width: 60,
+      height: 90,
+    },
+    mediumLogoIcon: {
+      position: 'absolute',
+      top: 15,
+      width: 60,
+      height: 90,
     },
   });
 };
