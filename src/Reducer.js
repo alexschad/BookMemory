@@ -21,14 +21,14 @@ const reducer = ({ save, books }, action) => {
       return { save: false, books };
     // add a new book
     case ACTIONS.ADD_BOOK: {
-      if (
-        !action.payload.isbn ||
-        books.find((b) => {
-          return b.isbn === action.payload.isbn;
-        })
-      ) {
-        return { save: false, books };
-      }
+      // if (
+      //   !action.payload.isbn ||
+      //   books.find((b) => {
+      //     return b.isbn === action.payload.isbn;
+      //   })
+      // ) {
+      //   return { save: false, books };
+      // }
       return {
         save: true,
         books: [
@@ -53,6 +53,7 @@ const reducer = ({ save, books }, action) => {
             return {
               ...l,
               title: action.payload.title,
+              description: action.payload.description,
             };
           }
           return l;

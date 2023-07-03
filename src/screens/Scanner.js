@@ -60,7 +60,7 @@ export default function Scanner() {
         setBookData(jsonData);
       } else {
         setAuthors([]);
-        setBookData({ title: 'Book not found', isbn_13: [''] });
+        setBookData({ error: 'Book not found', isbn_13: [''] });
       }
     }
     if (isbn) {

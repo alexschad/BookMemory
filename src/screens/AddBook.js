@@ -1,91 +1,40 @@
 import { useNavigation } from '@react-navigation/native';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import {
   Alert,
-  Pressable,
   SafeAreaView,
   ScrollView,
   Text,
   TextInput,
   TouchableOpacity,
   View,
+  Pressable,
 } from 'react-native';
 import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import Tags from 'react-native-tags';
-import AntIcon from 'react-native-vector-icons/dist/AntDesign';
 import KeyboardAwareContainer from '../components/KeyboardAwareContainer';
-import { DataContext, DispatchContext } from '../Context';
+import { DispatchContext } from '../Context';
 import { ACTIONS } from '../Reducer';
 import { useTheme } from '../ThemeManager';
 
-const DelHeaderLink = ({ navigation, book }) => {
+const AddBook = () => {
   const dispatch = useContext(DispatchContext);
   const {
     theme: { styles, COLORS },
   } = useTheme();
+  const navigation = useNavigation();
 
-  const deleteBook = () => {
-    Alert.alert(
-      'Delete the book?',
-      'You will lose all book data...',
-      [
-        {
-          text: 'Cancel',
-          style: 'cancel',
-        },
-        {
-          text: 'Delete',
-          onPress: () => {
-            navigation.navigate('Home');
-            dispatch({
-              type: ACTIONS.DELETE_BOOK,
-              payload: { id: book.id },
-            });
-          },
-        },
-      ],
-      { cancelable: false },
-    );
-  };
-  return (
-    <Pressable onPress={deleteBook} style={styles.navHeaderLink}>
-      <AntIcon name="delete" size={20} color={COLORS.buttonAction} />
-    </Pressable>
-  );
-};
-
-const EditBook = ({ route }) => {
-  const { bookId } = route.params;
-  const dispatch = useContext(DispatchContext);
-  const {
-    theme: { styles, COLORS },
-  } = useTheme();
-
-  const books = useContext(DataContext);
-  const book = books.find((e) => e.id === bookId);
-
-  const [title, setTitle] = useState(book ? book.title : '');
+  const [title, setTitle] = useState('');
   const onChangeTitle = (textValue) => setTitle(textValue.substr(0, 100));
 
-  const [description, setDescription] = useState(book ? book.description : '');
+  const [description, setDescription] = useState('');
   const onChangeDescription = (textValue) =>
     setDescription(textValue.substr(0, 250));
 
-  const navigation = useNavigation();
-  useEffect(() => {
-    navigation.setOptions({
-      headerTitle: () => {
-        let header;
-        if (book) {
-          header = <Text style={styles.headerItemText}>{book.title}</Text>;
-        }
-        return header;
-      },
-      headerRight: () => <DelHeaderLink navigation={navigation} book={book} />,
-    });
-  }, [navigation, book, styles]);
+  const [isbn, setIsbn] = useState('');
+  const [tags, setTags] = useState([]);
 
-  const editBook = () => {
+  const addBook = () => {
     if (!title) {
       Alert.alert(
         'No title',
@@ -100,25 +49,17 @@ const EditBook = ({ route }) => {
       );
     } else {
       dispatch({
-        type: ACTIONS.EDIT_BOOK_DATA,
+        type: ACTIONS.ADD_BOOK,
         payload: {
-          bookId,
-          title,
+          title: title,
+          isbn: isbn,
+          description: description,
+          tags: tags,
         },
       });
+      navigation.navigate('Home');
     }
   };
-
-  const editTags = (tags) => {
-    dispatch({
-      type: ACTIONS.EDIT_BOOK_TAGS,
-      payload: { bookId, tags },
-    });
-  };
-
-  if (!book) {
-    return null;
-  }
 
   return (
     <SafeAreaView style={styles.body} forceInset="top">
@@ -131,8 +72,19 @@ const EditBook = ({ route }) => {
               placeholderTextColor={COLORS.placeholderText}
               style={{ ...styles.smallInput, ...styles.border }}
               onChangeText={onChangeTitle}
-              onBlur={editBook}
               value={title}
+            />
+          </View>
+          <Text style={styles.formLabel}>ISBN:</Text>
+          <View style={styles.container}>
+            <TextInput
+              placeholder="ISBN"
+              placeholderTextColor={COLORS.placeholderText}
+              style={{ ...styles.smallInput, ...styles.border }}
+              onChangeText={(value) => {
+                setIsbn(value);
+              }}
+              value={isbn}
             />
           </View>
           <Text style={styles.formLabel}>
@@ -147,7 +99,6 @@ const EditBook = ({ route }) => {
               numberOfLines={10}
               multiline={true}
               onChangeText={onChangeDescription}
-              onBlur={editBook}
               value={description}
             />
           </View>
@@ -157,10 +108,12 @@ const EditBook = ({ route }) => {
               placeholder: 'Tag title',
               selectionColor: COLORS.text,
             }}
-            initialTags={book.tags}
+            initialTags={tags}
             createTagOnReturn
             createTagOnString={[',']}
-            onChangeTags={editTags}
+            onChangeTags={(tags) => {
+              setTags(tags);
+            }}
             inputStyle={styles.tagInputStyle}
             inputContainerStyle={styles.tagInputContainerStyle}
             style={{ minHeight: hp('4%') }}
@@ -175,10 +128,13 @@ const EditBook = ({ route }) => {
               </TouchableOpacity>
             )}
           />
+          <Pressable onPress={addBook} style={styles.button}>
+            <Text style={styles.textButtonText}>Add it yourself</Text>
+          </Pressable>
         </ScrollView>
       </KeyboardAwareContainer>
     </SafeAreaView>
   );
 };
 
-export default EditBook;
+export default AddBook;

@@ -140,6 +140,12 @@ const getStyle = (mode) => {
       width: wp('70%'),
       flexShrink: 1,
     },
+    headerItemText: {
+      fontSize: 17,
+      fontWeight: 'bold',
+      textAlign: 'center',
+      color: COLORS.text[mode],
+    },
     buttonWrapper: {
       padding: 20,
       backgroundColor: COLORS.buttonAction[mode],
@@ -161,14 +167,14 @@ const getStyle = (mode) => {
       justifyContent: 'center',
       alignSelf: 'center',
       paddingHorizontal: 10,
-      paddingTop: 8,
+      paddingTop: 5,
       paddingBottom: 5,
+      marginTop: 15,
       marginHorizontal: 2,
     },
     buttonText: {
       color: COLORS.text[mode],
       fontSize: 17,
-      textTransform: 'uppercase',
     },
     textButtonText: {
       color: COLORS.buttonText[mode],

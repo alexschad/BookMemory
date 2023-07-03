@@ -11,6 +11,7 @@ import { ThemeManager, useTheme } from './ThemeManager';
 import reducer, { ACTIONS } from './Reducer';
 import Home from './screens/Home';
 import Settings from './screens/Settings';
+import AddBook from './screens/AddBook';
 import EditBook from './screens/EditBook';
 import Scanner from './screens/Scanner';
 
@@ -59,6 +60,14 @@ const NavContainer = () => {
         <Stack.Screen
           name="EditBook"
           component={EditBook}
+          options={{
+            headerTitle: '',
+            headerBackTitle: 'Back',
+          }}
+        />
+        <Stack.Screen
+          name="AddBook"
+          component={AddBook}
           options={{
             headerTitle: '',
             headerBackTitle: 'Back',
