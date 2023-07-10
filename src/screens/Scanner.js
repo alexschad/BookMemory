@@ -1,9 +1,18 @@
 import React, { useState, useEffect } from 'react';
-
-import { StyleSheet } from 'react-native';
+import {
+  StyleSheet,
+  Pressable,
+  View,
+  TextInput,
+  Text,
+  Keyboard,
+} from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import { useCameraDevices } from 'react-native-vision-camera';
 import { Camera } from 'react-native-vision-camera';
 import { useScanBarcodes, BarcodeFormat } from 'vision-camera-code-scanner';
+import AntIcon from 'react-native-vector-icons/dist/AntDesign';
+import { useTheme } from '../ThemeManager';
 import CameraOverlay from '../components/CameraOverlay';
 
 const getAuthors = async (authors) => {
@@ -25,17 +34,58 @@ const getAuthors = async (authors) => {
   return authorNames;
 };
 
+const EnterISBNLink = ({
+  styles,
+  COLORS,
+  showManualISBN,
+  setShowManualISBN,
+}) => {
+  return (
+    <Pressable
+      onPress={() => {
+        setShowManualISBN(!showManualISBN);
+      }}
+      style={styles.navHeaderLink}>
+      {showManualISBN ? (
+        <AntIcon name="minus" size={20} color={COLORS.buttonAction} />
+      ) : (
+        <AntIcon name="plus" size={20} color={COLORS.buttonAction} />
+      )}
+    </Pressable>
+  );
+};
+
 export default function Scanner() {
   const [hasPermission, setHasPermission] = useState(false);
   const [isbn, setISBN] = useState();
   const [bookData, setBookData] = useState();
   const [authors, setAuthors] = useState([]);
+  const [manualISBN, setManualISBN] = useState();
+  const [showManualISBN, setShowManualISBN] = useState(false);
   const devices = useCameraDevices();
   const device = devices.back;
+  const navigation = useNavigation();
+
+  const {
+    theme: { styles, COLORS },
+  } = useTheme();
 
   const [frameProcessor, barcodes] = useScanBarcodes([BarcodeFormat.EAN_13], {
     checkInverted: true,
   });
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <EnterISBNLink
+          showManualISBN={showManualISBN}
+          setShowManualISBN={setShowManualISBN}
+          styles={styles}
+          COLORS={COLORS}
+        />
+      ),
+    });
+  }, [navigation, showManualISBN]);
 
   useEffect(() => {
     (async () => {
@@ -75,6 +125,10 @@ export default function Scanner() {
     }
   }, [barcodes]);
 
+  const addManualISBN = () => {
+    Keyboard.dismiss();
+    setISBN(manualISBN);
+  };
   return (
     device != null &&
     hasPermission && (
@@ -86,6 +140,25 @@ export default function Scanner() {
           frameProcessor={frameProcessor}
           frameProcessorFps={5}
         />
+        {showManualISBN && (
+          <View style={styles.manualISBNContainer}>
+            <TextInput
+              placeholder="Enter ISBN"
+              keyboardType="numeric"
+              placeholderTextColor={COLORS.placeholderText}
+              style={{
+                ...styles.smallInput,
+                ...styles.border,
+                ...{ flexGrow: 1 },
+              }}
+              onChangeText={(value) => setManualISBN(value)}
+              value={manualISBN}
+            />
+            <Pressable onPress={addManualISBN} style={styles.manualISBNButton}>
+              <Text style={styles.manualISBNButtonText}>Add</Text>
+            </Pressable>
+          </View>
+        )}
         <CameraOverlay {...bookData} authors={authors} />
       </>
     )

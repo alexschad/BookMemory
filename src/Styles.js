@@ -544,6 +544,27 @@ const getStyle = (mode) => {
       width: 60,
       height: 90,
     },
+    manualISBNContainer: {
+      display: 'flex',
+      backgroundColor: 'white',
+      flexDirection: 'row',
+    },
+    manualISBNButton: {
+      backgroundColor: COLORS.buttonAction[mode],
+      borderRadius: 20,
+      alignItems: 'center',
+      justifyContent: 'center',
+      alignSelf: 'center',
+      paddingHorizontal: 10,
+      paddingTop: 5,
+      paddingBottom: 5,
+      marginLeft: 2,
+      marginRight: 5,
+    },
+    manualISBNButtonText: {
+      color: COLORS.text[mode],
+      fontSize: 17,
+    },
   });
 };
 export const getTheme = (mode) => {
