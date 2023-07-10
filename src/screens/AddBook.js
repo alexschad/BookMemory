@@ -129,7 +129,7 @@ const AddBook = () => {
             )}
           />
           <Pressable onPress={addBook} style={styles.button}>
-            <Text style={styles.textButtonText}>Add it yourself</Text>
+            <Text style={styles.buttonText}>Add it yourself</Text>
           </Pressable>
         </ScrollView>
       </KeyboardAwareContainer>
