@@ -129,7 +129,6 @@ const App = () => {
     saveData();
   }, [save, books]);
 
-  // // load stacks on first render
   useEffect(() => {
     loadData();
   }, []);

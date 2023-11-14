@@ -1,11 +1,6 @@
 import React, { useState, useEffect } from 'react';
-// import { Appearance } from 'react-native-appearance';
 import { getTheme } from './Styles';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
-// set default colour scheme from OS
-// const osTheme = Appearance.getColorScheme();
-// const osTheme = 'dark';
 
 const getSettings = async () => {
   try {

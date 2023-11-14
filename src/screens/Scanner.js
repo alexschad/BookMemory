@@ -16,14 +16,12 @@ import { useTheme } from '../ThemeManager';
 import CameraOverlay from '../components/CameraOverlay';
 
 const getAuthors = async (authors) => {
-  console.log('FETCH AUTHORS!!!!!!', authors);
   if (!authors) {
     return [];
   }
   const authorNames = await Promise.all(
     authors.map(async (author) => {
       const url = `https://openlibrary.org${author.key}.json`;
-      // console.log('FETCH AUTHOR!!!!!!', url);
       const response = await fetch(url);
       if (response.status === 200) {
         const jsonData = await response.json();
@@ -96,16 +94,10 @@ export default function Scanner() {
 
   useEffect(() => {
     async function fetchData(url) {
-      console.log('FETCH!!!!!!');
       const response = await fetch(url);
       if (response.status === 200) {
-        // console.log('RESULT', response);
         const jsonData = await response.json();
-        console.log('JSON', jsonData);
-        // console.log('fetchData!!', jsonData);
-        // console.log('fetchData!!', jsonData.full_title);
         const authorNames = await getAuthors(jsonData.authors);
-        // console.log('AUTHOR NAMES', authorNames);
         setAuthors(authorNames);
         setBookData(jsonData);
       } else {

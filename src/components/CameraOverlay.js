@@ -15,11 +15,6 @@ const CameraOverlay = ({
   if (!isbn_13 || isbn_13.length === 0) {
     return;
   }
-  // const [data, setData] = useState(JSON.parse(jsonData));
-
-  // console.log('JSON', json);
-  // console.log('FULL', full_title);
-  // console.log('ISBN13', isbn_13);
 
   const navigation = useNavigation();
   const dispatch = useContext(DispatchContext);
@@ -39,7 +34,6 @@ const CameraOverlay = ({
     navigation.navigate('AddBook');
   };
   const addBook = () => {
-    console.log('ADD', isbn_13[0]);
     if (
       !isbn_13[0] ||
       books.find((b) => {

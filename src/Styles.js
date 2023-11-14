@@ -132,7 +132,6 @@ const getStyle = (mode) => {
       fontSize: 17,
       fontWeight: 'bold',
       color: COLORS.text[mode],
-      // height: 25,
       alignContent: 'flex-start',
       textAlign: 'left',
       includeFontPadding: false,
@@ -277,7 +276,6 @@ const getStyle = (mode) => {
       flexWrap: 'wrap',
       width: '95%',
       flexDirection: 'row',
-      // marginTop: 5,
     },
     settingsRow: {
       display: 'flex',
@@ -319,7 +317,6 @@ const getStyle = (mode) => {
     },
     photoContainer: {
       paddingVertical: 0,
-      // backgroundColor: '#112f29',
     },
     bookPhotoInfoContainer: {
       position: 'absolute',
